@@ -1,4 +1,6 @@
 import { CreateUserDto } from '@/user/dto/createUser.dto';
+import { LoginUserDto } from '@/user/dto/loginUserDto.dto';
+import { IUserResponse } from '@/user/types/userResponse.interface';
 import { UserService } from '@/user/user.service';
 import {
   Body,
@@ -12,9 +14,20 @@ import {
 export class UserControlller {
   constructor(private readonly userService: UserService) {}
 
-  @UsePipes(new ValidationPipe())
   @Post()
-  async createUser(@Body('user') createUserDto: CreateUserDto): Promise<any> {
+  @UsePipes(new ValidationPipe())
+  async createUser(
+    @Body('user') createUserDto: CreateUserDto,
+  ): Promise<IUserResponse> {
     return await this.userService.createUser(createUserDto);
+  }
+
+  @Post('login')
+  @UsePipes(new ValidationPipe())
+  async loginUser(
+    @Body('user') loginUserDto: LoginUserDto,
+  ): Promise<IUserResponse> {
+    const user = await this.userService.loginUser(loginUserDto);
+    return this.userService.generateUserResponse(user);
   }
 }

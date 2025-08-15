@@ -6,6 +6,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { sign, verify } from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
+import { LoginUserDto } from '@/user/dto/loginUserDto.dto';
+import { compare } from 'bcrypt';
 
 dotenv.config();
 
@@ -41,6 +43,32 @@ export class UserService {
 
     const savedUser = await this.userRepository.save(newUser);
     return this.generateUserResponse(savedUser);
+  }
+
+  async loginUser(loginUserDto: LoginUserDto): Promise<UserEntity> {
+    const user = await this.userRepository.findOne({
+      where: {
+        email: loginUserDto.email,
+      },
+    });
+
+    if (!user) {
+      throw new HttpException(
+        'Wrong email or password',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
+    const matchPassword = await compare(loginUserDto.password, user.password);
+
+    if (!matchPassword)
+      throw new HttpException(
+        'Wrong email or password',
+        HttpStatus.UNAUTHORIZED,
+      );
+
+    delete user.password;
+    return user;
   }
 
   generateToken(user: UserEntity): string {
