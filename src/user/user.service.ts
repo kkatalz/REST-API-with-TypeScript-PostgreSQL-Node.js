@@ -71,6 +71,19 @@ export class UserService {
     return user;
   }
 
+  async findUserById(id: number): Promise<UserEntity> {
+    const user = await this.userRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!user)
+      throw new HttpException('User was not found', HttpStatus.NOT_FOUND);
+
+    return user;
+  }
+
   generateToken(user: UserEntity): string {
     return sign(
       {
@@ -86,6 +99,13 @@ export class UserService {
   }
 
   generateUserResponse(user: UserEntity): IUserResponse {
+    if (!user.id) {
+      throw new HttpException(
+        'User Data (token) is missing',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     return {
       user: { ...user, token: this.generateToken(user) },
     };
