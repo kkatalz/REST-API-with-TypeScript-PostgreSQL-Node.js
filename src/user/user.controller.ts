@@ -1,4 +1,5 @@
 import { AuthRequest } from '@/types/expressRequest.interface';
+import { User } from '@/user/decorators/user.decorator';
 import { CreateUserDto } from '@/user/dto/createUser.dto';
 import { LoginUserDto } from '@/user/dto/loginUserDto.dto';
 import { IUserResponse } from '@/user/types/userResponse.interface';
@@ -12,6 +13,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { log } from 'console';
 
 @Controller()
 export class UserControlller {
@@ -35,7 +37,7 @@ export class UserControlller {
   }
 
   @Get('user')
-  async getCurrentUser(@Req() request: AuthRequest): Promise<IUserResponse> {
-    return this.userService.generateUserResponse(request.user);
+  async getCurrentUser(@User() user): Promise<IUserResponse> {
+    return this.userService.generateUserResponse(user);
   }
 }
