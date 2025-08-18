@@ -99,13 +99,6 @@ export class UserService {
   }
 
   generateUserResponse(user: UserEntity): IUserResponse {
-    if (!user.id) {
-      throw new HttpException(
-        'User Data (token) is missing',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-
     return {
       user: { ...user, token: this.generateToken(user) },
     };
