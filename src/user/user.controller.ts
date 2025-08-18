@@ -9,12 +9,14 @@ import {
   Controller,
   Get,
   Post,
+  Put,
   Req,
   UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@/user/guards/auth.guard';
+import { UpdateUserDto } from '@/user/dto/updateUser.dto';
 
 @Controller()
 export class UserControlller {
@@ -37,9 +39,22 @@ export class UserControlller {
     return this.userService.generateUserResponse(user);
   }
 
+  @Put('user')
+  @UseGuards(AuthGuard)
+  async updateUser(
+    @User('id') userId: number,
+    @Body('user') updateUserDto: UpdateUserDto,
+  ): Promise<IUserResponse> {
+    const updatedUser = await this.userService.updateUser(
+      userId,
+      updateUserDto,
+    );
+    return this.userService.generateUserResponse(updatedUser);
+  }
+
   @Get('user')
   @UseGuards(AuthGuard)
-  async getCurrentUser(@User() user): Promise<IUserResponse> {
+  getCurrentUser(@User() user): IUserResponse {
     return this.userService.generateUserResponse(user);
   }
 }

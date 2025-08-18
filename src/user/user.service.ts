@@ -8,6 +8,7 @@ import { sign, verify } from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 import { LoginUserDto } from '@/user/dto/loginUserDto.dto';
 import { compare } from 'bcrypt';
+import { UpdateUserDto } from '@/user/dto/updateUser.dto';
 
 dotenv.config();
 
@@ -69,6 +70,16 @@ export class UserService {
 
     delete user.password;
     return user;
+  }
+
+  async updateUser(
+    userId: number,
+    updateUserDto: UpdateUserDto,
+  ): Promise<UserEntity> {
+    const user = await this.findUserById(userId);
+    Object.assign(user, updateUserDto);
+
+    return await this.userRepository.save(user);
   }
 
   async findUserById(id: number): Promise<UserEntity> {
