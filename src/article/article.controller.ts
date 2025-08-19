@@ -8,6 +8,7 @@ import { UserEntity } from '@/user/user.entity';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -39,5 +40,14 @@ export class ArticleController {
     const article = await this.articleService.getSingleArticle(slug);
 
     return this.articleService.generateArticleResponse(article);
+  }
+
+  @Delete(':slug')
+  @UseGuards(AuthGuard)
+  async deleteArticle(
+    @Param('slug') slug: string,
+    @User('id') currentUserId: number,
+  ) {
+    return await this.articleService.deleteArticle(slug, currentUserId);
   }
 }
