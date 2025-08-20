@@ -25,7 +25,7 @@ export class ArticleEntity {
   title: string;
 
   @Column('simple-array')
-  taglist: string[];
+  tagList: string[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

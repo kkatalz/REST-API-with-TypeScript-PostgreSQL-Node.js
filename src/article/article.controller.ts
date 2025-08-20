@@ -3,6 +3,7 @@ import { ArticleService } from '@/article/article.service';
 import { CreateArticleDto } from '@/article/dto/createArticle.dto';
 import { UpdateArticleDto } from '@/article/dto/updateArticle.dto';
 import { IArticleResponse } from '@/article/types/articleResponse.interface';
+import { IArticlesResponse } from '@/article/types/articlesResponse.interface';
 import { User } from '@/user/decorators/user.decorator';
 import { AuthGuard } from '@/user/guards/auth.guard';
 import { UserEntity } from '@/user/user.entity';
@@ -14,6 +15,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -22,6 +24,18 @@ import {
 @Controller('articles')
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
+
+  @Get()
+  async findAllArticles(@Query() query: any): Promise<IArticlesResponse> {
+    return await this.articleService.findAllArticles(query);
+  }
+
+  @Get(':slug')
+  async getArticle(@Param('slug') slug: string): Promise<IArticleResponse> {
+    const article = await this.articleService.getSingleArticle(slug);
+
+    return this.articleService.generateArticleResponse(article);
+  }
 
   @Post()
   @UsePipes(new ValidationPipe())
@@ -35,13 +49,6 @@ export class ArticleController {
       createArticleDto,
     );
     return this.articleService.generateArticleResponse(newArticle);
-  }
-
-  @Get(':slug')
-  async getArticle(@Param('slug') slug: string): Promise<IArticleResponse> {
-    const article = await this.articleService.getSingleArticle(slug);
-
-    return this.articleService.generateArticleResponse(article);
   }
 
   @Delete(':slug')
