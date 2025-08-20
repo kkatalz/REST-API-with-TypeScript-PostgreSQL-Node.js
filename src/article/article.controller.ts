@@ -20,6 +20,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { DeleteResult } from 'typeorm';
 
 @Controller('articles')
 export class ArticleController {
@@ -56,7 +57,7 @@ export class ArticleController {
   async deleteArticle(
     @Param('slug') slug: string,
     @User('id') currentUserId: number,
-  ) {
+  ): Promise<DeleteResult> {
     return await this.articleService.deleteArticle(slug, currentUserId);
   }
 
@@ -74,5 +75,14 @@ export class ArticleController {
     );
 
     return this.articleService.generateArticleResponse(updatedArticle);
+  }
+
+  @Post(':slug/favorite')
+  @UseGuards(AuthGuard)
+  async addFavoriteArticle(
+    @Param('slug') slug: string,
+    @User('id') currentUserId: number,
+  ): Promise<IArticleResponse> {
+    return await this.articleService.addFavoriteArticle(slug, currentUserId);
   }
 }

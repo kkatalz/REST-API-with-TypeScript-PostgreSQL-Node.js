@@ -9,6 +9,7 @@ import slugify from 'slugify';
 import { UpdateArticleDto } from '@/article/dto/updateArticle.dto';
 import { UpdateUserDto } from '@/user/dto/updateUser.dto';
 import { IArticlesResponse } from '@/article/types/articlesResponse.interface';
+import { log } from 'node:console';
 
 @Injectable()
 export class ArticleService {
@@ -138,6 +139,42 @@ export class ArticleService {
     }
 
     return article;
+  }
+
+  async addFavoriteArticle(
+    slug: string,
+    currentUserId: number,
+  ): Promise<IArticleResponse> {
+    const user = await this.userRepository.findOne({
+      where: {
+        id: currentUserId,
+      },
+      relations: ['favorites'],
+    });
+
+    console.log(user);
+
+    const currentArticle = await this.findBySlug(slug);
+
+    const isNotFavorite = !user?.favorites.find(
+      (article) => article.slug == currentArticle.slug,
+    );
+
+    if (!user) {
+      throw new HttpException(
+        `User with ID ${currentUserId} was not found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    if (isNotFavorite) {
+      currentArticle.favoritesCount++;
+      user?.favorites.push(currentArticle);
+      await this.articleRepository.save(currentArticle);
+      await this.userRepository.save(user);
+    }
+
+    return this.generateArticleResponse(currentArticle);
   }
 
   generateArticleResponse(article: ArticleEntity): IArticleResponse {
