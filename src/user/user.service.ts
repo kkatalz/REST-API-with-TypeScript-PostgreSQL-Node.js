@@ -87,6 +87,7 @@ export class UserService {
       where: {
         id,
       },
+      relations: ['favorites'],
     });
 
     if (!user)
@@ -104,9 +105,6 @@ export class UserService {
       },
       process.env.JWT_SECRET,
     );
-
-    // const decode = verify(generatedToken, 'SECRET9090');
-    // console.log(decode);
   }
 
   generateUserResponse(user: UserEntity): IUserResponse {

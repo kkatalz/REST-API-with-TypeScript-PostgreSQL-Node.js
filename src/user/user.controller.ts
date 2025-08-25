@@ -54,7 +54,9 @@ export class UserControlller {
 
   @Get('user')
   @UseGuards(AuthGuard)
-  getCurrentUser(@User() user): IUserResponse {
-    return this.userService.generateUserResponse(user);
+  async getCurrentUser(@User('id') userId: number): Promise<IUserResponse> {
+    const currentUser = await this.userService.findUserById(userId);
+
+    return this.userService.generateUserResponse(currentUser);
   }
 }
