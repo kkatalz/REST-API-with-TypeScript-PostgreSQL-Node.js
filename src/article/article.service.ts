@@ -10,6 +10,7 @@ import { UpdateArticleDto } from '@/article/dto/updateArticle.dto';
 import { UpdateUserDto } from '@/user/dto/updateUser.dto';
 import { IArticlesResponse } from '@/article/types/articlesResponse.interface';
 import { log } from 'node:console';
+import { console } from 'node:inspector';
 
 @Injectable()
 export class ArticleService {
@@ -20,7 +21,10 @@ export class ArticleService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  async findAllArticles(query: any): Promise<IArticlesResponse> {
+  async findAllArticles(
+    currentUserId: number,
+    query: any,
+  ): Promise<IArticlesResponse> {
     const queryBuilder = this.articleRepository
       .createQueryBuilder('articles')
       .leftJoinAndSelect('articles.author', 'author');
@@ -59,9 +63,46 @@ export class ArticleService {
       queryBuilder.offset(query.offset);
     }
 
+    if (query.favorited) {
+      const author = await this.userRepository.findOne({
+        where: {
+          username: query.favorited,
+        },
+        relations: ['favorites'],
+      });
+
+      if (!author || author.favorites.length === 0) {
+        return { articles: [], articlesCount: 0 };
+      }
+
+      const favoritesIds = author?.favorites.map((article) => article.id);
+
+      queryBuilder.andWhere('articles.id IN (:...ids)', { ids: favoritesIds });
+    }
+
     const articles = await queryBuilder.getMany();
 
-    return { articles, articlesCount };
+    let userFavoritesIds: number[] = [];
+
+    if (currentUserId) {
+      const currentUser = await this.userRepository.findOne({
+        where: {
+          id: currentUserId,
+        },
+        relations: ['favorites'],
+      });
+
+      userFavoritesIds = currentUser
+        ? currentUser.favorites.map((article) => article.id)
+        : [];
+    }
+
+    const articlesWithFavorited = articles.map((article) => {
+      const favorited = userFavoritesIds.includes(article.id);
+      return { ...article, favorited };
+    });
+
+    return { articles: articlesWithFavorited, articlesCount };
   }
 
   async createArticle(

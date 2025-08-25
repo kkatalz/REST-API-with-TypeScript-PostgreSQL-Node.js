@@ -27,8 +27,11 @@ export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
 
   @Get()
-  async findAllArticles(@Query() query: any): Promise<IArticlesResponse> {
-    return await this.articleService.findAllArticles(query);
+  async findAllArticles(
+    @User('id') currentUserId: number,
+    @Query() query: any,
+  ): Promise<IArticlesResponse> {
+    return await this.articleService.findAllArticles(currentUserId, query);
   }
 
   @Get(':slug')
