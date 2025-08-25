@@ -144,21 +144,13 @@ export class ArticleService {
   async addFavoriteArticle(
     slug: string,
     currentUserId: number,
-  ): Promise<IArticleResponse> {
+  ): Promise<ArticleEntity> {
     const user = await this.userRepository.findOne({
       where: {
         id: currentUserId,
       },
       relations: ['favorites'],
     });
-
-    console.log(user);
-
-    const currentArticle = await this.findBySlug(slug);
-
-    const isNotFavorite = !user?.favorites.find(
-      (article) => article.slug == currentArticle.slug,
-    );
 
     if (!user) {
       throw new HttpException(
@@ -167,6 +159,12 @@ export class ArticleService {
       );
     }
 
+    const currentArticle = await this.findBySlug(slug);
+
+    const isNotFavorite = !user?.favorites.find(
+      (article) => article.slug == currentArticle.slug,
+    );
+
     if (isNotFavorite) {
       currentArticle.favoritesCount++;
       user?.favorites.push(currentArticle);
@@ -174,7 +172,41 @@ export class ArticleService {
       await this.userRepository.save(user);
     }
 
-    return this.generateArticleResponse(currentArticle);
+    return currentArticle;
+  }
+
+  async removeArticleFromFavorites(
+    slug: string,
+    currentUserId: number,
+  ): Promise<ArticleEntity> {
+    const user = await this.userRepository.findOne({
+      where: {
+        id: currentUserId,
+      },
+      relations: ['favorites'],
+    });
+
+    if (!user) {
+      throw new HttpException(
+        `User with ID ${currentUserId} was not found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    const currentArticle = await this.findBySlug(slug);
+
+    const articleIndex = user.favorites.findIndex(
+      (article) => article.slug === currentArticle.slug,
+    );
+
+    if (articleIndex >= 0) {
+      currentArticle.favoritesCount--;
+      user.favorites.splice(articleIndex, 1);
+      await this.articleRepository.save(currentArticle);
+      await this.userRepository.save(user);
+    }
+
+    return currentArticle;
   }
 
   generateArticleResponse(article: ArticleEntity): IArticleResponse {
