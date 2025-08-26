@@ -83,6 +83,28 @@ export class ProfileService {
     return { ...followingProfile, following: true };
   }
 
+  async unfollowProfile(
+    currentUserId: number,
+    unfollowingUsername: string,
+  ): Promise<ProfileType> {
+    const unfollowingProfile = await this.userRepository.findOne({
+      where: {
+        username: unfollowingUsername,
+      },
+    });
+
+    if (!unfollowingProfile) {
+      throw new HttpException('Profile not found', HttpStatus.NOT_FOUND);
+    }
+
+    await this.followRepository.delete({
+      followerId: currentUserId,
+      followingId: unfollowingProfile.id,
+    });
+
+    return { ...unfollowingProfile, following: false };
+  }
+
   generateProfileResponse(profile: ProfileType): IProfileResponse {
     delete profile?.password;
     delete profile?.email;
