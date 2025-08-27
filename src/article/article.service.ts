@@ -1,17 +1,14 @@
 import { ArticleEntity } from '@/article/article.entity';
 import { CreateArticleDto } from '@/article/dto/createArticle.dto';
+import { UpdateArticleDto } from '@/article/dto/updateArticle.dto';
 import { IArticleResponse } from '@/article/types/articleResponse.interface';
+import { IArticlesResponse } from '@/article/types/articlesResponse.interface';
+import { FollowEntity } from '@/profile/follow.entity';
 import { UserEntity } from '@/user/user.entity';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
 import slugify from 'slugify';
-import { UpdateArticleDto } from '@/article/dto/updateArticle.dto';
-import { UpdateUserDto } from '@/user/dto/updateUser.dto';
-import { IArticlesResponse } from '@/article/types/articlesResponse.interface';
-import { log } from 'node:console';
-import { console } from 'node:inspector';
-import { FollowEntity } from '@/profile/follow.entity';
+import { DeleteResult, Repository } from 'typeorm';
 
 @Injectable()
 export class ArticleService {

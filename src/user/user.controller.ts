@@ -1,7 +1,8 @@
-import { AuthRequest } from '@/types/expressRequest.interface';
 import { User } from '@/user/decorators/user.decorator';
 import { CreateUserDto } from '@/user/dto/createUser.dto';
 import { LoginUserDto } from '@/user/dto/loginUserDto.dto';
+import { UpdateUserDto } from '@/user/dto/updateUser.dto';
+import { AuthGuard } from '@/user/guards/auth.guard';
 import { IUserResponse } from '@/user/types/userResponse.interface';
 import { UserService } from '@/user/user.service';
 import {
@@ -10,13 +11,10 @@ import {
   Get,
   Post,
   Put,
-  Req,
   UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { AuthGuard } from '@/user/guards/auth.guard';
-import { UpdateUserDto } from '@/user/dto/updateUser.dto';
 
 @Controller()
 export class UserControlller {

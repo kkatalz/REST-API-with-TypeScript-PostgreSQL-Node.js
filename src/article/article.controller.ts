@@ -1,4 +1,3 @@
-import { ArticleEntity } from '@/article/article.entity';
 import { ArticleService } from '@/article/article.service';
 import { CreateArticleDto } from '@/article/dto/createArticle.dto';
 import { UpdateArticleDto } from '@/article/dto/updateArticle.dto';

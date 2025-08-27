@@ -1,3 +1,4 @@
+import * as bcrypt from 'bcrypt';
 import {
   BeforeInsert,
   Column,
@@ -7,7 +8,6 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import * as bcrypt from 'bcrypt';
 import { ArticleEntity } from '../article/article.entity';
 
 @Entity({ name: 'users' })

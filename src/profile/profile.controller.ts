@@ -1,3 +1,6 @@
+import { IProfileResponse } from '@/profile/types/profileResponse.interface';
+import { User } from '@/user/decorators/user.decorator';
+import { AuthGuard } from '@/user/guards/auth.guard';
 import {
   Controller,
   Delete,
@@ -7,10 +10,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
-import { User } from '@/user/decorators/user.decorator';
-import { IProfileResponse } from '@/profile/types/profileResponse.interface';
-import { UserEntity } from '@/user/user.entity';
-import { AuthGuard } from '@/user/guards/auth.guard';
 
 @Controller('profiles')
 export class ProfileController {

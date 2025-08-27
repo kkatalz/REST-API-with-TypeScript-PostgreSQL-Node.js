@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common';
-import { ProfileService } from './profile.service';
-import { ProfileController } from './profile.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from '@/user/user.entity';
 import { FollowEntity } from '@/profile/follow.entity';
+import { UserEntity } from '@/user/user.entity';
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ProfileController } from './profile.controller';
+import { ProfileService } from './profile.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity, FollowEntity])],

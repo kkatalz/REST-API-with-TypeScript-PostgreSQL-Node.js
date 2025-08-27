@@ -1,13 +1,13 @@
-import { Module } from '@nestjs/common';
 import { AppController } from '@/app.controller';
 import { AppService } from '@/app.service';
-import { TagModule } from '@/tag/tag.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import ormconfig from '@/ormconfig';
-import { UserModule } from '@/user/user.module';
-import { ConfigModule } from '@nestjs/config';
 import { ArticleModule } from '@/article/article.module';
+import ormconfig from '@/ormconfig';
 import { ProfileModule } from '@/profile/profile.module';
+import { TagModule } from '@/tag/tag.module';
+import { UserModule } from '@/user/user.module';
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
