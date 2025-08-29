@@ -111,6 +111,6 @@ export class CommentService {
       );
     }
 
-    return await this.commentRepository.delete({ id });
+    return await this.commentRepository.delete({ id: commentId });
   }
 }
