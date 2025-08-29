@@ -7,7 +7,7 @@ import { ICommentsResponse } from '@/comment/types/commentsResponse.interface';
 import { UserEntity } from '@/user/user.entity';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 
 @Injectable()
 export class CommentService {
@@ -73,5 +73,44 @@ export class CommentService {
     return {
       comments,
     };
+  }
+
+  async deleteComment(
+    currentUserId: number,
+    slug: string,
+    commentId: number,
+  ): Promise<DeleteResult> {
+    const article = await this.articleRepository.findOne({
+      where: { slug },
+    });
+
+    if (!article) {
+      throw new HttpException('Article not found', HttpStatus.NOT_FOUND);
+    }
+
+    const comment = await this.commentRepository.findOne({
+      where: {
+        id: commentId,
+        article: {
+          slug,
+        },
+      },
+    });
+
+    if (!comment) {
+      throw new HttpException(
+        'Given comment is not found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    if (comment?.authorId !== currentUserId) {
+      throw new HttpException(
+        'You are not the author. Access denied.',
+        HttpStatus.FORBIDDEN,
+      );
+    }
+
+    return await this.commentRepository.delete({ id });
   }
 }

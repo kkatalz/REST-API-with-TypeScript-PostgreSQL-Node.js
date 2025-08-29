@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -15,6 +16,7 @@ import { User } from '@/user/decorators/user.decorator';
 import { AddCommentDto } from '@/comment/dto/addComment.dto';
 import { ICommentResponse } from '@/comment/types/commentResponse.interface';
 import { ICommentsResponse } from '@/comment/types/commentsResponse.interface';
+import { DeleteResult } from 'typeorm';
 
 @Controller('articles')
 export class CommentController {
@@ -40,6 +42,22 @@ export class CommentController {
       user,
       slug,
       addCommentDto,
+    );
+    return comment;
+  }
+
+  @Delete(':slug/comments/:id')
+  @UsePipes(new ValidationPipe())
+  @UseGuards(AuthGuard)
+  async deleteComment(
+    @User('id') currentUserId: number,
+    @Param('slug') slug: string,
+    @Param('id') id: number,
+  ): Promise<DeleteResult> {
+    const comment = await this.commentService.deleteComment(
+      currentUserId,
+      slug,
+      id,
     );
     return comment;
   }
