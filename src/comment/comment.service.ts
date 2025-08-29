@@ -3,6 +3,7 @@ import { IArticleResponse } from '@/article/types/articleResponse.interface';
 import { CommentEntity } from '@/comment/comment.entity';
 import { AddCommentDto } from '@/comment/dto/addComment.dto';
 import { ICommentResponse } from '@/comment/types/commentResponse.interface';
+import { ICommentsResponse } from '@/comment/types/commentsResponse.interface';
 import { UserEntity } from '@/user/user.entity';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -16,6 +17,27 @@ export class CommentService {
     @InjectRepository(ArticleEntity)
     private readonly articleRepository: Repository<ArticleEntity>,
   ) {}
+
+  async getAllComments(slug: string): Promise<ICommentsResponse> {
+    const article = await this.articleRepository.findOne({
+      where: {
+        slug,
+      },
+    });
+
+    if (!article) {
+      throw new HttpException('Article not found', HttpStatus.NOT_FOUND);
+    }
+
+    const comments = await this.commentRepository.find({
+      where: {
+        articleId: article.id,
+      },
+      order: { createdAt: 'DESC' },
+    });
+
+    return this.generateCommentsResponse(comments);
+  }
 
   async addCommentToArticle(
     user: UserEntity,
@@ -45,6 +67,11 @@ export class CommentService {
   generateCommentResponse(comment: CommentEntity): ICommentResponse {
     return {
       comment,
+    };
+  }
+  generateCommentsResponse(comments: CommentEntity[]): ICommentsResponse {
+    return {
+      comments,
     };
   }
 }
