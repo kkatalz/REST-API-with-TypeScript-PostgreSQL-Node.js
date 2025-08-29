@@ -8,6 +8,7 @@ import { UserModule } from '@/user/user.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     ArticleModule,
     ConfigModule.forRoot({ isGlobal: true }),
     ProfileModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
