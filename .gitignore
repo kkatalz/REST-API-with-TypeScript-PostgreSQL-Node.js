@@ -1,61 +1,58 @@
 # compiled output
-/dist
-/node_modules
-/build
-./blog-frontend/node_modules
-./blog-nest/node_modules
-./blog-nest/dist
-./blog-nest/build
+/blog-frontend/node_modules
+/blog-nest/node_modules
+/blog-nest/dist
+/blog-nest/build
 
 
 # Logs
-.blog-nest/logs
-.blog-nest/*.log
-.blog-nest/npm-debug.log*
-.blog-nest/pnpm-debug.log*
-.blog-nest/yarn-debug.log*
-.blog-nest/yarn-error.log*
-.blog-nest/lerna-debug.log*
+/blog-nest/logs
+/blog-nest/*.log
+/blog-nest/npm-debug.log*
+/blog-nest/pnpm-debug.log*
+/blog-nest/yarn-debug.log*
+/blog-nest/yarn-error.log*
+/blog-nest/lerna-debug.log*
 
 # OS
-.blog-nest/.DS_Store
+/blog-nest/.DS_Store
 
 # Tests
-.blog-nest/coverage
-.blog-nest/.nyc_output
+/blog-nest/coverage
+/blog-nest/.nyc_output
 
 # IDEs and editors
-.blog-nest/.idea
-.blog-nest/.project
-.blog-nest/.classpath
-.blog-nest/.c9/
-.blog-nest/*.launch
-.blog-nest/.settings/
-.blog-nest/*.sublime-workspace
+/blog-nest/.idea
+/blog-nest/.project
+/blog-nest/.classpath
+/blog-nest/.c9/
+/blog-nest/*.launch
+/blog-nest/.settings/
+/blog-nest/*.sublime-workspace
 
 # IDE - VSCode
-.blog-nest/.vscode/*
-.blog-nest/!.vscode/settings.json
-.blog-nest/!.vscode/tasks.json
-.blog-nest/!.vscode/launch.json
-.blog-nest/!.vscode/extensions.json
+/blog-nest/.vscode/*
+/blog-nest/!.vscode/settings.json
+/blog-nest/!.vscode/tasks.json
+/blog-nest/!.vscode/launch.json
+/blog-nest/!.vscode/extensions.json
 
 # dotenv environment variable files
-.blog-nest/.env
-.blog-nest/.env.development.local
-.blog-nest/.env.test.local
-.blog-nest/.env.production.local
-.blog-nest/.env.local
+/blog-nest/.env
+/blog-nest/.env.development.local
+/blog-nest/.env.test.local
+/blog-nest/.env.production.local
+/blog-nest/.env.local
 
 # temp directory
-.blog-nest/.temp
-.blog-nest/.tmp
+/blog-nest/.temp
+/blog-nest/.tmp
 
 # Runtime data
-.blog-nest/pids
-.blog-nest/*.pid
-.blog-nest/*.seed
-.blog-nest/*.pid.lock
+/blog-nest/pids
+/blog-nest/*.pid
+/blog-nest/*.seed
+/blog-nest/*.pid.lock
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 .blog-nest/report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
