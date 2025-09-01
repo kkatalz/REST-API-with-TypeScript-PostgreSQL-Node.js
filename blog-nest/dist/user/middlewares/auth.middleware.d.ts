@@ -5,5 +5,5 @@ import { NextFunction } from 'express';
 export declare class AuthMiddleware implements NestMiddleware {
     private readonly userService;
     constructor(userService: UserService);
-    use(req: AuthRequest, res: Response, next: NextFunction): any;
+    use(req: AuthRequest, res: Response, next: NextFunction): Promise<void>;
 }

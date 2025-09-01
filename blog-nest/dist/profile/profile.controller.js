@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a, _b, _c;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProfileController = void 0;
 const user_decorator_1 = require("../user/decorators/user.decorator");
@@ -43,7 +42,7 @@ __decorate([
     __param(1, (0, common_1.Param)('username')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, String]),
-    __metadata("design:returntype", typeof (_a = typeof Promise !== "undefined" && Promise) === "function" ? _a : Object)
+    __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "getProfile", null);
 __decorate([
     (0, common_1.Post)(':username/follow'),
@@ -52,7 +51,7 @@ __decorate([
     __param(1, (0, common_1.Param)('username')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, String]),
-    __metadata("design:returntype", typeof (_b = typeof Promise !== "undefined" && Promise) === "function" ? _b : Object)
+    __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "followProfile", null);
 __decorate([
     (0, common_1.Delete)(':username/follow'),
@@ -61,7 +60,7 @@ __decorate([
     __param(1, (0, common_1.Param)('username')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, String]),
-    __metadata("design:returntype", typeof (_c = typeof Promise !== "undefined" && Promise) === "function" ? _c : Object)
+    __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "unfollowProfile", null);
 exports.ProfileController = ProfileController = __decorate([
     (0, common_1.Controller)('profiles'),

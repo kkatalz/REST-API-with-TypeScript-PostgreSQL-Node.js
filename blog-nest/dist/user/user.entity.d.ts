@@ -8,5 +8,5 @@ export declare class UserEntity {
     password?: string;
     articles: ArticleEntity[];
     favorites: ArticleEntity[];
-    hashPassword(): any;
+    hashPassword(): Promise<void>;
 }

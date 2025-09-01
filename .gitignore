@@ -1,7 +1,6 @@
 # compiled output
 /blog-frontend/node_modules
 /blog-nest/node_modules
-/blog-nest/dist
 /blog-nest/build
 
 

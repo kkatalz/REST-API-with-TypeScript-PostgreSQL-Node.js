@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a, _b, _c, _d;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserControlller = void 0;
 const user_decorator_1 = require("./decorators/user.decorator");
@@ -49,7 +48,7 @@ __decorate([
     __param(0, (0, common_1.Body)('user')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [createUser_dto_1.CreateUserDto]),
-    __metadata("design:returntype", typeof (_a = typeof Promise !== "undefined" && Promise) === "function" ? _a : Object)
+    __metadata("design:returntype", Promise)
 ], UserControlller.prototype, "createUser", null);
 __decorate([
     (0, common_1.Post)('users/login'),
@@ -57,7 +56,7 @@ __decorate([
     __param(0, (0, common_1.Body)('user')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [loginUserDto_dto_1.LoginUserDto]),
-    __metadata("design:returntype", typeof (_b = typeof Promise !== "undefined" && Promise) === "function" ? _b : Object)
+    __metadata("design:returntype", Promise)
 ], UserControlller.prototype, "loginUser", null);
 __decorate([
     (0, common_1.Put)('user'),
@@ -66,7 +65,7 @@ __decorate([
     __param(1, (0, common_1.Body)('user')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, updateUser_dto_1.UpdateUserDto]),
-    __metadata("design:returntype", typeof (_c = typeof Promise !== "undefined" && Promise) === "function" ? _c : Object)
+    __metadata("design:returntype", Promise)
 ], UserControlller.prototype, "updateUser", null);
 __decorate([
     (0, common_1.Get)('user'),
@@ -74,7 +73,7 @@ __decorate([
     __param(0, (0, user_decorator_1.User)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", typeof (_d = typeof Promise !== "undefined" && Promise) === "function" ? _d : Object)
+    __metadata("design:returntype", Promise)
 ], UserControlller.prototype, "getCurrentUser", null);
 exports.UserControlller = UserControlller = __decorate([
     (0, common_1.Controller)(),

@@ -1,6 +1,7 @@
 import { ArticleEntity } from '@/article/article.entity';
 import { CreateArticleDto } from '@/article/dto/createArticle.dto';
 import { UpdateArticleDto } from '@/article/dto/updateArticle.dto';
+import { Article } from '@/article/types/article.type';
 import { IArticleResponse } from '@/article/types/articleResponse.interface';
 import { IArticlesResponse } from '@/article/types/articlesResponse.interface';
 import { FollowEntity } from '@/profile/follow.entity';
@@ -18,8 +19,8 @@ export declare class ArticleService {
     deleteArticle(slug: string, currentUserId: number): Promise<DeleteResult>;
     updateArticle(slug: string, currentUserId: number, updateArticleDto: UpdateArticleDto): Promise<ArticleEntity>;
     findBySlug(slug: string): Promise<ArticleEntity>;
-    addFavoriteArticle(slug: string, currentUserId: number): Promise<ArticleEntity>;
-    removeArticleFromFavorites(slug: string, currentUserId: number): Promise<ArticleEntity>;
-    generateArticleResponse(article: ArticleEntity): IArticleResponse;
+    addFavoriteArticle(slug: string, currentUserId: number): Promise<Article>;
+    removeArticleFromFavorites(slug: string, currentUserId: number): Promise<Article>;
+    generateArticleResponse(article: Article): IArticleResponse;
     generateSlug(title: string): string;
 }

@@ -3,5 +3,5 @@ import { Repository } from 'typeorm';
 export declare class TagService {
     private readonly tagRepository;
     constructor(tagRepository: Repository<TagEntity>);
-    getAll(): unknown;
+    getAll(): Promise<TagEntity[]>;
 }

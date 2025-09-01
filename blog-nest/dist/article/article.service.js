@@ -180,7 +180,7 @@ let ArticleService = class ArticleService {
             await this.articleRepository.save(currentArticle);
             await this.userRepository.save(user);
         }
-        return currentArticle;
+        return { ...currentArticle, favorited: true };
     }
     async removeArticleFromFavorites(slug, currentUserId) {
         const user = await this.userRepository.findOne({
@@ -200,7 +200,7 @@ let ArticleService = class ArticleService {
             await this.articleRepository.save(currentArticle);
             await this.userRepository.save(user);
         }
-        return currentArticle;
+        return { ...currentArticle, favorited: false };
     }
     generateArticleResponse(article) {
         return {

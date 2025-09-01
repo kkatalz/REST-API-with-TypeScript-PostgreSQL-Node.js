@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a, _b, _c;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommentController = void 0;
 const common_1 = require("@nestjs/common");
@@ -44,7 +43,7 @@ __decorate([
     __param(0, (0, common_1.Param)('slug')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", typeof (_a = typeof Promise !== "undefined" && Promise) === "function" ? _a : Object)
+    __metadata("design:returntype", Promise)
 ], CommentController.prototype, "getAllComments", null);
 __decorate([
     (0, common_1.Post)(':slug/comments'),
@@ -55,7 +54,7 @@ __decorate([
     __param(2, (0, common_1.Body)('comment')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_entity_1.UserEntity, String, addComment_dto_1.AddCommentDto]),
-    __metadata("design:returntype", typeof (_b = typeof Promise !== "undefined" && Promise) === "function" ? _b : Object)
+    __metadata("design:returntype", Promise)
 ], CommentController.prototype, "addCommentToArticle", null);
 __decorate([
     (0, common_1.Delete)(':slug/comments/:id'),
@@ -66,7 +65,7 @@ __decorate([
     __param(2, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, String, Number]),
-    __metadata("design:returntype", typeof (_c = typeof Promise !== "undefined" && Promise) === "function" ? _c : Object)
+    __metadata("design:returntype", Promise)
 ], CommentController.prototype, "deleteComment", null);
 exports.CommentController = CommentController = __decorate([
     (0, common_1.Controller)('articles'),
