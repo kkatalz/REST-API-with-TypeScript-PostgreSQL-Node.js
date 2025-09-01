@@ -1,6 +1,7 @@
 import { ArticleEntity } from '@/article/article.entity';
 import { CreateArticleDto } from '@/article/dto/createArticle.dto';
 import { UpdateArticleDto } from '@/article/dto/updateArticle.dto';
+import { Article } from '@/article/types/article.type';
 import { IArticleResponse } from '@/article/types/articleResponse.interface';
 import { IArticlesResponse } from '@/article/types/articlesResponse.interface';
 import { FollowEntity } from '@/profile/follow.entity';
@@ -223,7 +224,7 @@ export class ArticleService {
   async addFavoriteArticle(
     slug: string,
     currentUserId: number,
-  ): Promise<ArticleEntity> {
+  ): Promise<Article> {
     const user = await this.userRepository.findOne({
       where: {
         id: currentUserId,
@@ -251,13 +252,13 @@ export class ArticleService {
       await this.userRepository.save(user);
     }
 
-    return currentArticle;
+    return { ...currentArticle, favorited: true };
   }
 
   async removeArticleFromFavorites(
     slug: string,
     currentUserId: number,
-  ): Promise<ArticleEntity> {
+  ): Promise<Article> {
     const user = await this.userRepository.findOne({
       where: {
         id: currentUserId,
@@ -285,10 +286,10 @@ export class ArticleService {
       await this.userRepository.save(user);
     }
 
-    return currentArticle;
+    return { ...currentArticle, favorited: false };
   }
 
-  generateArticleResponse(article: ArticleEntity): IArticleResponse {
+  generateArticleResponse(article: Article): IArticleResponse {
     return {
       article,
     };
