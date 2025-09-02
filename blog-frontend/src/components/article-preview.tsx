@@ -1,44 +1,74 @@
-import { useMutation } from "@tanstack/react-query"
-import { Link } from "react-router-dom"
-import { favoriteArticle, unfavoriteArticle } from "../services/article.service"
-import { Article } from "../shared/data-access/api/models/article"
-import { TagList } from "./tag-list"
-import dayjs from "dayjs"
+import { useMutation } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
+import {
+  favoriteArticle,
+  unfavoriteArticle,
+} from "../services/article.service";
+import { Article } from "../shared/data-access/api/models/article";
+import { TagList } from "./tag-list";
+import dayjs from "dayjs";
 
 interface ArticleProps {
-  article: Article
+  article: Article;
 }
 
 export const ArticlePreview = ({ article }: ArticleProps) => {
   const { mutate: favorite } = useMutation({
-    mutationKey: ["favorited"], mutationFn: favoriteArticle, onSuccess: (data) => handleOnSuccess(data)
-  })
+    mutationKey: ["favorited"],
+    mutationFn: favoriteArticle,
+    onSuccess: (data) => handleOnSuccess(data),
+  });
   const { mutate: unfavorite } = useMutation({
-    mutationKey: ["unfavorite"], mutationFn: unfavoriteArticle, onSuccess: (data) => handleOnSuccess(data)
-  })
+    mutationKey: ["unfavorite"],
+    mutationFn: unfavoriteArticle,
+    onSuccess: (data) => handleOnSuccess(data),
+  });
 
   const handleOnSuccess = (data: { article: Article }) => {
     article.favorited = data.article.favorited;
-    article.favoritesCount = data.article.favoritesCount
-  }
+    article.favoritesCount = data.article.favoritesCount;
+  };
 
   const handleOnClick = () => {
     if (!article.favorited) {
-      favorite(article.slug)
+      favorite(article.slug);
     } else {
-      unfavorite(article.slug)
+      unfavorite(article.slug);
     }
-  }
+  };
+
+  const fallback = "/assets/profile-icon.jpg";
+  const src = article.author?.image ?? fallback;
 
   return (
     <div className="article-preview">
       <div className="article-meta">
-        <a href={article.author.username}><img src={article.author.image} /></a>
+        <a href={article.author.username}>
+          <img
+            src={src}
+            onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+              e.currentTarget.src = fallback;
+            }}
+          />
+        </a>
         <div className="info">
-          <Link reloadDocument to={`/profile/${article.author.username}`} className="author">{article.author.username}</Link>
-          <span className="date">{dayjs(article.createdAt).format('MMMM D, YYYY')}</span>
+          <Link
+            reloadDocument
+            to={`/profile/${article.author.username}`}
+            className="author"
+          >
+            {article.author.username}
+          </Link>
+          <span className="date">
+            {dayjs(article.createdAt).format("MMMM D, YYYY")}
+          </span>
         </div>
-        <button onClick={handleOnClick} className={`btn ${article.favorited ? "btn-primary" : "btn-outline-primary"} btn-sm pull-xs-right`}>
+        <button
+          onClick={handleOnClick}
+          className={`btn ${
+            article.favorited ? "btn-primary" : "btn-outline-primary"
+          } btn-sm pull-xs-right`}
+        >
           <i className="ion-heart"></i> {article.favoritesCount}
         </button>
       </div>
@@ -49,5 +79,5 @@ export const ArticlePreview = ({ article }: ArticleProps) => {
         <TagList tagList={article.tagList} />
       </a>
     </div>
-  )
-}
+  );
+};

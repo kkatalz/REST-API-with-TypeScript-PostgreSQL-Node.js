@@ -6,7 +6,6 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 import { register } from "../services/auth.service";
 import { useAuthStore } from "../shared/data-access/store/auth.store";
 import { RegisterValidationSchema } from "../shared/data-access/zod-schema";
-import { ErrorList } from "../shared/ui/error-list";
 import { Error } from "../shared/ui/error";
 
 const initialValues = {

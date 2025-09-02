@@ -30,12 +30,21 @@ export const ProfilePreview = ({ profile, isOwner }: ProfilePreviewProps) => {
     onSuccess: handleOnSuccess,
   });
 
+  const fallback = "/assets/profile-icon.jpg";
+  const src = currentProfile?.image ?? fallback;
+
   return (
     <div className="user-info">
       <div className="container">
         <div className="row">
           <div className="col-xs-12 col-md-10 offset-md-1">
-            <img src={currentProfile.image} className="user-img" />
+            <img
+              src={src}
+              onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                e.currentTarget.src = fallback;
+              }}
+              className="user-img"
+            />
             <h4>{currentProfile.username}</h4>
             <p>{currentProfile.username}</p>
             {isOwner ? (
