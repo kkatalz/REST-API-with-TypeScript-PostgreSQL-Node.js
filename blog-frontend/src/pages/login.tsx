@@ -26,7 +26,6 @@ export const Login = () => {
     },
   });
 
-  console.log(error as AxiosError);
   return (
     <div className="auth-page">
       <div className="container page">

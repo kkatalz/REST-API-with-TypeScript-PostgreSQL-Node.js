@@ -4,7 +4,7 @@ import { useAuthStore } from "../shared/data-access/store/auth.store";
 
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const { isAuthenticated } = useAuthStore()
-  let location = useLocation();
+  const location = useLocation();
 
   if (!isAuthenticated) {
     return <Navigate to="/login" state={{ from: location }} replace />
