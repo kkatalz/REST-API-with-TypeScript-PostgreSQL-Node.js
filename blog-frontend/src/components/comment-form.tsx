@@ -1,34 +1,39 @@
-import { useMutation } from "@tanstack/react-query"
-import { Field, Form, Formik } from "formik"
-import { createComment } from "../services/comment.service"
-import { Comment, CommentDTO } from "../shared/data-access/api/models/comment"
-import { useAuthStore } from "../shared/data-access/store/auth.store"
+import { useMutation } from "@tanstack/react-query";
+import { Field, Form, Formik } from "formik";
+import { createComment } from "../services/comment.service";
+import { Comment, CommentDTO } from "../shared/data-access/api/models/comment";
+import { useAuthStore } from "../shared/data-access/store/auth.store";
 
 interface CommentFormProps {
   slug: string;
-  addComment: (comment: Comment) => void
+  addComment: (comment: Comment) => void;
 }
 const initialValues: CommentDTO = {
-  body: ""
-}
+  body: "",
+};
 
 export const CommentForm = ({ addComment, slug }: CommentFormProps) => {
-  const { user } = useAuthStore()
+  const { user } = useAuthStore();
+
+  const fallback = "/assets/profile-icon.jpg";
+  const src = user?.image ?? fallback;
 
   const mutation = useMutation({
     mutationKey: ["create_comment", slug],
     mutationFn: (comment: CommentDTO) => createComment(slug, { comment }),
     onSuccess: (data) => {
-      addComment(data.comment)
-    }
-  })
+      addComment(data.comment);
+    },
+  });
 
-  console.log(user)
+  console.log(user);
   if (!user) {
     return (
-
-      <p><a href="/login">Sign in</a> or <a href="/register">sign up</a> to add comments on this article</p>
-    )
+      <p>
+        <a href="/login">Sign in</a> or <a href="/register">sign up</a> to add
+        comments on this article
+      </p>
+    );
   }
   return (
     <Formik
@@ -36,20 +41,34 @@ export const CommentForm = ({ addComment, slug }: CommentFormProps) => {
       onSubmit={(comment: CommentDTO, { resetForm }) => {
         mutation.mutate(comment, {
           onSuccess: () => {
-            resetForm()
-          }
-        })
+            resetForm();
+          },
+        });
       }}
     >
       <Form className="card comment-form">
         <div className="card-block">
-          <Field as="textarea" className="form-control" placeholder="Write a comment..." rows={3} name="body" />
+          <Field
+            as="textarea"
+            className="form-control"
+            placeholder="Write a comment..."
+            rows={3}
+            name="body"
+          />
         </div>
         <div className="card-footer">
-          <img src={user?.image} className="comment-author-img" />
-          <button className="btn btn-sm btn-primary" type="submit">Post Comment</button>
+          <img
+            src={src}
+            onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+              e.currentTarget.src = fallback;
+            }}
+            className="comment-author-img"
+          />
+          <button className="btn btn-sm btn-primary" type="submit">
+            Post Comment
+          </button>
         </div>
       </Form>
-    </Formik >
-  )
-}
+    </Formik>
+  );
+};
