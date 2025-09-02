@@ -1,7 +1,6 @@
-**Look at how the app works!
-**
+  **Look at how the app works!**
 
-_LOGIN PAGE _
+_LOGIN PAGE_
 <img width="1139" height="400" alt="Screenshot 2025-09-02 144109" src="https://github.com/user-attachments/assets/63363dde-4414-4227-9175-758706403e4a" />
 
 _SIGN UP_
